@@ -16,7 +16,6 @@ This will be a self-hosted standalone binary which acts as a comment server for 
 
 * Download the appropriate binary from [github.com/asday/ghostbook/bin/](https://github.com/asday/ghostbook/bin/) on your server;
 * Set the following environment_variables:
-    * `GB_SITE_URL`:  The base URL of your site, such as `"example.com"`;
     * `GB_COMMENTS_FOLDER`:  The publically served folder within which to save the comment files;
     * `GB_COMMENT_LENGTH_LIMIT`:  Self-explanatory;
     * `GB_PORT`:  The port upon which to run the Ghostbook server.  This defaults to `55864`;

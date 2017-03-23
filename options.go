@@ -9,7 +9,6 @@ import (
 )
 
 type options struct {
-	siteURL            string
 	commentsFolder     string
 	commentLengthLimit int
 	port               int
@@ -29,13 +28,6 @@ func newOptions(optionSetters ...option) (*options, error) {
 	}
 
 	return out, nil
-}
-
-func optionSiteURL(siteURL string) option {
-	return func(options *options) error {
-		options.siteURL = siteURL
-		return nil
-	}
 }
 
 func optionCommentsFolder(commentsFolder string) option {
@@ -60,19 +52,12 @@ func optionPort(port int) option {
 }
 
 func getOptions() (options, error) {
-	siteURL := os.Getenv("GB_SITE_URL")
 	commentsFolder := os.Getenv("GB_COMMENTS_FOLDER")
 	commentLengthLimit := os.Getenv("GB_COMMENT_LENGTH_LIMIT")
 	port := os.Getenv("GB_PORT")
 
 	errs := make([]string, 0)
 	optSetters := make([]option, 0)
-	if siteURL != "" {
-		// TODO:  Check it's a valid URL.
-		optSetters = append(optSetters, optionSiteURL(siteURL))
-	} else {
-		errs = append(errs, "Environment variable GB_SITE_URL must be set.")
-	}
 
 	if commentsFolder != "" {
 		// TODO:  Check it's writable.  Make a folder there yo.
