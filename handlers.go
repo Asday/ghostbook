@@ -6,11 +6,6 @@ import (
 	"net/http"
 )
 
-type comment struct {
-	GhostbookID string `json:"ghostbookId"`
-	Comment     string `json:"comment"`
-}
-
 func getBodyData(r *http.Request) (comment, error) {
 	decoder := json.NewDecoder(r.Body)
 	defer r.Body.Close()
@@ -30,6 +25,11 @@ func serveRequest(r *http.Request, opts options) error {
 		errorMsg := "Comment length too long; reduce to at most %d characters."
 		return fmt.Errorf(errorMsg, opts.commentLengthLimit)
 	}
+
+	// TODO:  Some manner of spam check here.  Possibly rate limit based on IP.
+	// Easily subvertable but whatever.  Better than nothing.
+
+	addComment(body, opts)
 
 	return nil
 }
