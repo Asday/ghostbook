@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+// TODO:  This code feels like it sucks compared to `handlers.go`.
+
 type options struct {
 	commentsFolder     string
 	commentLengthLimit int
