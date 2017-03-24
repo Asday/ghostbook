@@ -36,10 +36,24 @@ func readComments(path string) comments {
 	return cmts
 }
 
+func writeComments(path string, cmts comments) {
+	data, err := json.Marshal(cmts)
+	if err != nil {
+		panic(err)
+	}
+
+	err = ioutil.WriteFile(path, data, 0600)
+	if err != nil {
+		panic(err)
+	}
+}
+
 func addComment(cmt comment, opts options) {
 	path := filepath.Join(opts.commentsFolder, fmt.Sprintf("%s.json", cmt.GhostbookID))
 
 	cmts := readComments(path)
+	cmts = append(comments{cmt}, cmts...)
+	writeComments(path, cmts)
 
 	spew.Dump(cmts)
 }
