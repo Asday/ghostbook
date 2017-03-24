@@ -6,6 +6,11 @@ import (
 	"net/http"
 )
 
+type comment struct {
+	GhostbookID string `json:"ghostbookId"`
+	Comment     string `json:"comment"`
+}
+
 func getBodyData(r *http.Request) (comment, error) {
 	decoder := json.NewDecoder(r.Body)
 	defer r.Body.Close()

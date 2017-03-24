@@ -5,16 +5,15 @@ import (
 	"fmt"
 	"io/ioutil"
 	"path/filepath"
-
-	"github.com/davecgh/go-spew/spew"
+	"time"
 )
 
-type comment struct {
-	GhostbookID string `json:"ghostbookId"`
-	Comment     string `json:"comment"`
+type savedComment struct {
+	Comment   string `json:"comment"`
+	Timestamp int32  `json:"timestamp"`
 }
 
-type comments []comment
+type savedComments []savedComment
 
 func getFileContents(path string) []byte {
 	contents, err := ioutil.ReadFile(path)
@@ -25,18 +24,18 @@ func getFileContents(path string) []byte {
 	return contents
 }
 
-func readComments(path string) comments {
+func readComments(path string) savedComments {
 	contents := getFileContents(path)
-	cmts := make(comments, 0)
+	cmts := make(savedComments, 0)
 	err := json.Unmarshal(contents, &cmts)
 	if err != nil {
-		return comments{}
+		return savedComments{}
 	}
 
 	return cmts
 }
 
-func writeComments(path string, cmts comments) {
+func writeComments(path string, cmts savedComments) {
 	data, err := json.Marshal(cmts)
 	if err != nil {
 		panic(err)
@@ -48,12 +47,18 @@ func writeComments(path string, cmts comments) {
 	}
 }
 
+func makeSavedComment(cmt comment) savedComment {
+	return savedComment{
+		Comment:   cmt.Comment,
+		Timestamp: int32(time.Now().Unix()),
+	}
+}
+
 func addComment(cmt comment, opts options) {
 	path := filepath.Join(opts.commentsFolder, fmt.Sprintf("%s.json", cmt.GhostbookID))
 
 	cmts := readComments(path)
-	cmts = append(comments{cmt}, cmts...)
+	// TODO:  Check for duplicates
+	cmts = append(savedComments{makeSavedComment(cmt)}, cmts...)
 	writeComments(path, cmts)
-
-	spew.Dump(cmts)
 }
