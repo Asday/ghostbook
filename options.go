@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strconv"
 	"strings"
 )
@@ -62,8 +63,16 @@ func getOptions() (options, error) {
 	optSetters := make([]option, 0)
 
 	if commentsFolder != "" {
-		// TODO:  Check it's writable.  Make a folder there yo.
-		optSetters = append(optSetters, optionCommentsFolder(commentsFolder))
+		mkdirErr := os.MkdirAll(commentsFolder, 0700)
+		path := filepath.Join(commentsFolder, "_ghostbook_write_test")
+		f, writeErr := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0600)
+		f.Close() // No need to defer or check for errors.
+		if mkdirErr == nil && writeErr == nil {
+			optSetters = append(optSetters, optionCommentsFolder(commentsFolder))
+		} else {
+			errorMsg := "Environment variable GB_COMMENTS_FOLDER refers to an unwritable path"
+			errs = append(errs, errorMsg)
+		}
 	} else {
 		errs = append(errs, "Environment variable GB_COMMENTS_FOLDER must be set.")
 	}

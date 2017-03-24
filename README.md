@@ -12,6 +12,8 @@ This will be a self-hosted standalone binary which acts as a comment server for 
 * Reference `node_modules/ghostbook/dist/bundle.js` in your HTML, template, or build process;
 * Define a block level element within which to contain Ghostbook on the pages you want it, with a data tags `data-ghostbook-url="[url]" data-ghostbook-id="[id]"`, where `[url]` is the root URL of your Ghostbook instance for example `https://comments.example.com:55864/`, and `[id]` is the ID whose comments you wish to display and add to on this page.  For blogs, the page slug will do, though you can use the same `id` on many pages to have the same comment thread if you wish.
 
+One tiny caveat:  Don't use `"_ghostbook_write_test"` for an `id`.
+
 ### Backend
 
 * Download the appropriate binary from [github.com/asday/ghostbook/bin/](https://github.com/asday/ghostbook/bin/) on your server;
