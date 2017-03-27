@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/asday/recaptcha"
+	"github.com/haisum/recaptcha"
 )
 
 // TODO:  This code feels like it sucks compared to `handlers.go`.
