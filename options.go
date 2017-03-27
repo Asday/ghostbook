@@ -14,6 +14,7 @@ import (
 // TODO:  This code feels like it sucks compared to `handlers.go`.
 
 type options struct {
+	siteHost           string
 	commentsFolder     string
 	commentLengthLimit int
 	port               int
@@ -39,6 +40,13 @@ func newOptions(optionSetters ...option) (*options, error) {
 	}
 
 	return out, nil
+}
+
+func optionSiteHost(siteHost string) option {
+	return func(options *options) error {
+		options.siteHost = siteHost
+		return nil
+	}
 }
 
 func optionCommentsFolder(commentsFolder string) option {
@@ -71,6 +79,7 @@ func optionCaptchaDetails(siteID string, secret string) option {
 }
 
 func getOptions() (options, error) {
+	siteHost := os.Getenv("GB_SITE_HOST")
 	commentsFolder := os.Getenv("GB_COMMENTS_FOLDER")
 	commentLengthLimit := os.Getenv("GB_COMMENT_LENGTH_LIMIT")
 	port := os.Getenv("GB_PORT")
@@ -79,6 +88,12 @@ func getOptions() (options, error) {
 
 	errs := make([]string, 0)
 	optSetters := make([]option, 0)
+
+	if siteHost != "" {
+		optSetters = append(optSetters, optionSiteHost(siteHost))
+	} else {
+		errs = append(errs, "Environment variable GB_SITE_HOST must be set.")
+	}
 
 	if commentsFolder != "" {
 		mkdirErr := os.MkdirAll(commentsFolder, 0700)
