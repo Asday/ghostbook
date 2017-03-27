@@ -92,7 +92,7 @@ func getOptions() (options, error) {
 	if siteHost != "" {
 		optSetters = append(optSetters, optionSiteHost(siteHost))
 	} else {
-		errs = append(errs, "Environment variable GB_SITE_HOST must be set.")
+		errs = append(errs, "Environment variable GB_SITE_HOST must be set")
 	}
 
 	if commentsFolder != "" {
@@ -107,13 +107,13 @@ func getOptions() (options, error) {
 			errs = append(errs, errorMsg)
 		}
 	} else {
-		errs = append(errs, "Environment variable GB_COMMENTS_FOLDER must be set.")
+		errs = append(errs, "Environment variable GB_COMMENTS_FOLDER must be set")
 	}
 
 	if commentLengthLimit != "" {
 		if commentLengthLimit, err := strconv.Atoi(commentLengthLimit); err == nil {
 			if commentLengthLimit <= 0 {
-				errs = append(errs, "Please define GB_COMMENT_LENGTH_LIMIT as a positive integer.")
+				errs = append(errs, "Please define GB_COMMENT_LENGTH_LIMIT as a positive integer")
 			} else {
 				optSetters = append(optSetters, optionCommentLengthLimit(commentLengthLimit))
 			}
@@ -121,7 +121,7 @@ func getOptions() (options, error) {
 			errs = append(errs, fmt.Sprintf("Unable to convert environment variable GB_COMMENT_LENGTH_LIMIT to an int:  %s", err.Error()))
 		}
 	} else {
-		errs = append(errs, "Environment variable GB_COMMENT_LENGTH_LIMIT must be set.")
+		errs = append(errs, "Environment variable GB_COMMENT_LENGTH_LIMIT must be set")
 	}
 
 	if port != "" {
@@ -135,7 +135,7 @@ func getOptions() (options, error) {
 	if (captchaSiteID != "" && captchaSecret == "") || (captchaSiteID == "" && captchaSecret != "") {
 		errs = append(errs, "You must specify either both or neither of the environment variables `GB_CAPTCHA_SITE_ID` and `GB_CAPTCHA_SECRET`")
 	} else if captchaSiteID != "" { // Only validate CAPTCHA details if we're to use CAPTCHA
-		errorTemplate := "Your `%s` doesn't look right.  As far as I know, it should be 40 characters long."
+		errorTemplate := "Your `%s` doesn't look right.  As far as I know, it should be 40 characters long"
 		formatError := false
 		if len(captchaSiteID) != 40 {
 			errs = append(errs, fmt.Sprintf(errorTemplate, "GB_CAPTCHA_SITE_ID"))

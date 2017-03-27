@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"fmt"
 	"net/http"
 )
@@ -28,13 +29,13 @@ func serveRequest(r *http.Request, opts options) error {
 	}
 
 	if len(body.Comment) > opts.commentLengthLimit {
-		errorMsg := "Comment length too long; reduce to at most %d characters."
+		errorMsg := "Comment length too long; reduce to at most %d characters"
 		return fmt.Errorf(errorMsg, opts.commentLengthLimit)
 	}
 
 	if opts.captchaEnabled() {
 		if opts.captchaSecret.VerifyResponse(body.CaptchaResponse) {
-			return nil
+			return errors.New("CAPTCHA verification failed")
 		}
 	}
 
