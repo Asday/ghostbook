@@ -32,7 +32,7 @@ func serveRequest(r *http.Request, opts options) error {
 	}
 
 	if opts.captchaEnabled() {
-		if isValid := opts.captchaSecret.Verify(*r); !isValid {
+		if !opts.captchaSecret.Verify(*r) {
 			return nil
 		}
 	}
