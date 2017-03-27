@@ -10,6 +10,8 @@ func main() {
 	opts, err := getOptions()
 	if err != nil {
 		os.Stderr.WriteString(err.Error())
+
+		fmt.Print("\n")
 		os.Exit(1)
 	}
 
@@ -18,5 +20,6 @@ func main() {
 	}
 	http.HandleFunc("/comment", makeCommentEndpoint(opts))
 
+	fmt.Print("Listening...\n")
 	http.ListenAndServe(fmt.Sprintf(":%d", opts.port), nil)
 }
