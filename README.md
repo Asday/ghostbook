@@ -53,4 +53,4 @@ On a more philosophical level; I personally believe that good discussion perpetu
 * Little to no moderation;
 * No "comment scoring" à la reddit.
 
-These combine to form a system in which comments stand solely upon their own merits, which in the age of Candid's Orwellian AI moderator, is exceedingly important.
+These combine to form a system in which comments stand solely upon their own merits, which, in the age of Candid's Orwellian AI moderator, is exceedingly important.
