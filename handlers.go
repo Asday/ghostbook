@@ -7,8 +7,9 @@ import (
 )
 
 type comment struct {
-	GhostbookID string `json:"ghostbookId"`
-	Comment     string `json:"comment"`
+	GhostbookID     string `json:"ghostbookId"`
+	Comment         string `json:"comment"`
+	CaptchaResponse string `json:"g-recaptcha-response"`
 }
 
 func getBodyData(r *http.Request) (comment, error) {
@@ -32,7 +33,7 @@ func serveRequest(r *http.Request, opts options) error {
 	}
 
 	if opts.captchaEnabled() {
-		if !opts.captchaSecret.Verify(*r) {
+		if opts.captchaSecret.VerifyResponse(body.CaptchaResponse) {
 			return nil
 		}
 	}
