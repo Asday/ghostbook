@@ -7,6 +7,8 @@ import (
 	"path/filepath"
 	"strconv"
 	"strings"
+
+	"github.com/haisum/recaptcha"
 )
 
 // TODO:  This code feels like it sucks compared to `handlers.go`.
@@ -16,7 +18,7 @@ type options struct {
 	commentLengthLimit int
 	port               int
 	captchaSiteID      string
-	captchaSecret      string
+	captchaSecret      recaptcha.R
 }
 
 func (o options) captchaEnabled() bool {
@@ -63,7 +65,7 @@ func optionPort(port int) option {
 func optionCaptchaDetails(siteID string, secret string) option {
 	return func(options *options) error {
 		options.captchaSiteID = siteID
-		options.captchaSecret = secret
+		options.captchaSecret = recaptcha.R{Secret: secret}
 		return nil
 	}
 }
