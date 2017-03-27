@@ -58,3 +58,16 @@ func makeCommentEndpoint(opts options) handler {
 		}
 	}
 }
+
+func makeCaptchaEndpoint(opts options) handler {
+	return func(w http.ResponseWriter, r *http.Request) {
+		w.Header().Set("Access-Control-Allow-Methods", "GET")
+		switch r.Method {
+		case "GET":
+			w.WriteHeader(200)
+			w.Write([]byte(opts.captchaSiteID))
+		default:
+			http.Error(w, "Method not allowed", 405)
+		}
+	}
+}

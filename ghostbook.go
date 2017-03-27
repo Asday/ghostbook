@@ -13,6 +13,10 @@ func main() {
 		os.Exit(1)
 	}
 
+	if opts.captchaEnabled() {
+		http.HandleFunc("/captcha", makeCaptchaEndpoint(opts))
+	}
 	http.HandleFunc("/comment", makeCommentEndpoint(opts))
+
 	http.ListenAndServe(fmt.Sprintf(":%d", opts.port), nil)
 }

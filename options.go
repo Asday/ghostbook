@@ -19,6 +19,10 @@ type options struct {
 	captchaSecret      string
 }
 
+func (o options) captchaEnabled() bool {
+	return o.captchaSiteID != ""
+}
+
 type option func(*options) error
 
 func newOptions(optionSetters ...option) (*options, error) {
