@@ -15,6 +15,8 @@ type options struct {
 	commentsFolder     string
 	commentLengthLimit int
 	port               int
+	captchaSiteID      string
+	captchaSecret      string
 }
 
 type option func(*options) error
@@ -54,10 +56,20 @@ func optionPort(port int) option {
 	}
 }
 
+func optionCaptchaDetails(siteID string, secret string) option {
+	return func(options *options) error {
+		options.captchaSiteID = siteID
+		options.captchaSecret = secret
+		return nil
+	}
+}
+
 func getOptions() (options, error) {
 	commentsFolder := os.Getenv("GB_COMMENTS_FOLDER")
 	commentLengthLimit := os.Getenv("GB_COMMENT_LENGTH_LIMIT")
 	port := os.Getenv("GB_PORT")
+	captchaSiteID := os.Getenv("GB_CAPTCHA_SITE_ID")
+	captchaSecret := os.Getenv("GB_CAPTCHA_SECRET")
 
 	errs := make([]string, 0)
 	optSetters := make([]option, 0)
@@ -96,6 +108,25 @@ func getOptions() (options, error) {
 			optSetters = append(optSetters, optionPort(port))
 		} else {
 			errs = append(errs, fmt.Sprintf("Unable to convert environment variable GB_PORT to an int:  %s", err.Error()))
+		}
+	}
+
+	if (captchaSiteID != "" && captchaSecret == "") || (captchaSiteID == "" && captchaSecret != "") {
+		errs = append(errs, "You must specify either both or neither of the environment variables `GB_CAPTCHA_SITE_ID` and `GB_CAPTCHA_SECRET`")
+	} else if captchaSiteID != "" { // Only validate CAPTCHA details if we're to use CAPTCHA
+		errorTemplate := "Your `%s` doesn't look right.  As far as I know, it should be 40 characters long."
+		formatError := false
+		if len(captchaSiteID) != 40 {
+			errs = append(errs, fmt.Sprintf(errorTemplate, "GB_CAPTCHA_SITE_ID"))
+			formatError = true
+		}
+		if len(captchaSecret) != 40 {
+			errs = append(errs, fmt.Sprintf(errorTemplate, "GB_CAPTCHA_SECRET"))
+			formatError = true
+		}
+
+		if !formatError {
+			optSetters = append(optSetters, optionCaptchaDetails(captchaSiteID, captchaSecret))
 		}
 	}
 
