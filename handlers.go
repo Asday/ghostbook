@@ -31,8 +31,11 @@ func serveRequest(r *http.Request, opts options) error {
 		return fmt.Errorf(errorMsg, opts.commentLengthLimit)
 	}
 
-	// TODO:  Some manner of spam check here.  Possibly rate limit based on IP.
-	// Easily subvertable but whatever.  Better than nothing.
+	if opts.captchaEnabled() {
+		if isValid := opts.captchaSecret.Verify(*r); !isValid {
+			return nil
+		}
+	}
 
 	addComment(body, opts)
 
