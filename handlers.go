@@ -46,7 +46,9 @@ func makeCommentEndpoint(opts options) handler {
 		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
 
 		switch r.Method {
-		case "POST", "OPTIONS":
+		case "OPTIONS":
+			return
+		case "POST":
 			err := serveRequest(r, opts)
 			if err == nil {
 				w.WriteHeader(204)
@@ -61,8 +63,10 @@ func makeCommentEndpoint(opts options) handler {
 
 func makeCaptchaEndpoint(opts options) handler {
 	return func(w http.ResponseWriter, r *http.Request) {
-		w.Header().Set("Access-Control-Allow-Methods", "GET")
+		w.Header().Set("Access-Control-Allow-Methods", "GET, OPTIONS")
 		switch r.Method {
+		case "OPTIONS":
+			return
 		case "GET":
 			w.WriteHeader(200)
 			w.Write([]byte(opts.captchaSiteID))
