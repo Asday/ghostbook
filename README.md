@@ -21,6 +21,9 @@ One tiny caveat:  Don't use `"_ghostbook_write_test"` for an `id`.
     * `GB_COMMENTS_FOLDER`:  The publically served folder within which to save the comment files;
     * `GB_COMMENT_LENGTH_LIMIT`:  Self-explanatory;
     * `GB_PORT`:  The port upon which to run the Ghostbook server.  This defaults to `55864`;
+* If you are going to use CAPTCHA, (and you probably should), set the following additional environment variables:
+    * `GB_CAPTCHA_SITE_ID`;
+    * `GB_CAPTCHA_SECRET`;
 * Run `./ghostbook`, (or `ghostbook.exe`) with whatever task runner you wish.
 
 If your chosen port is open to the world, and you don't want to use HTTPS, or subdomains, or host your instance under a path, you're done.  If not, you'll need to point your web server at your Ghostbook instance.
