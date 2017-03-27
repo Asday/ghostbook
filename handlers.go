@@ -47,6 +47,7 @@ type handler func(w http.ResponseWriter, r *http.Request)
 func makeCommentEndpoint(opts options) handler {
 	return func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS")
+		w.Header().Set("Access-Control-Allow-Origin", opts.siteHost)
 
 		switch r.Method {
 		case "OPTIONS":
