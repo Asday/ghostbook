@@ -13,6 +13,12 @@ class Comments extends Component {
     failedToLoadComments: PropTypes.bool.isRequired,
   }
 
+  constructor(props) {
+    super(props);
+
+    this.mdRenderer = new Remarkable();
+  }
+
   _renderComment = (commentData, key) => {
     const {
       comment,
@@ -22,8 +28,7 @@ class Comments extends Component {
     const date = new Date(timestamp * 1000);
     const humanReadableDate = date.toString();
 
-    const mdRenderer = new Remarkable();
-    const renderedComment = mdRenderer.render(comment);
+    const renderedComment = this.mdRenderer.render(comment);
 
     return (
       <section key={ key }>
