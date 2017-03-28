@@ -53,21 +53,39 @@ class Ghostbook extends Component {
       });
   }
 
+  _commentChanged = (comment) => {
+    this.setState({comment});
+  }
+
+  _submitComment = () => {
+    alert(`Submitting comment ${this.state.comment}`);
+  }
+
   componentDidMount = () => {
     this._fetchComments();
   }
 
   render = () => {
     const {
+      _commentChanged,
+      _submitComment,
+      state,
+    } = this;
+
+    const {
       comment,
       comments,
       commentsLoaded,
       failedToLoadComments,
-    } = this.state;
+    } = state;
 
     return (
       <section>
-        <CommentForm comment={ comment } />
+        <CommentForm
+          comment={ comment }
+          _commentChanged={ _commentChanged }
+          _submitComment={ _submitComment }
+        />
         <Comments
           comments={ comments }
           commentsLoaded={ commentsLoaded }
