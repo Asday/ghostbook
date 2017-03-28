@@ -5,7 +5,7 @@ class CommentForm extends Component {
     comment: PropTypes.string.isRequired,
   }
 
-  render() {
+  render = () => {
     const {
       comment,
     } = this.props;

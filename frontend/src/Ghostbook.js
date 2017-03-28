@@ -21,7 +21,7 @@ class Ghostbook extends Component {
     };
   }
 
-  _fetchComments() {
+  _fetchComments = () => {
     const {
       ghostbookId,
       ghostbookCommentsRoot,
@@ -53,17 +53,11 @@ class Ghostbook extends Component {
       });
   }
 
-  componentDidMount() {
+  componentDidMount = () => {
     this._fetchComments();
   }
 
-  render() {
-    // const {
-    //   ghostbookCommentsRoot,
-    //   ghostbookId,
-    //   ghostbookUrl,
-    // } = this.props;
-
+  render = () => {
     const {
       comment,
       comments,
@@ -72,14 +66,14 @@ class Ghostbook extends Component {
     } = this.state;
 
     return (
-      <div>
+      <section>
         <CommentForm comment={ comment } />
         <Comments
           comments={ comments }
           commentsLoaded={ commentsLoaded }
           failedToLoadComments={ failedToLoadComments }
         />
-      </div>
+      </section>
     );
   }
 }

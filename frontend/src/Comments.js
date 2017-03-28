@@ -13,7 +13,7 @@ class Comments extends Component {
     failedToLoadComments: PropTypes.bool.isRequired,
   }
 
-  _renderComment(commentData, key) {
+  _renderComment = (commentData, key) => {
     const {
       comment,
       timestamp,
@@ -33,7 +33,7 @@ class Comments extends Component {
     );
   }
 
-  render() {
+  render = () => {
     const {
       comments,
     } = this.props;
