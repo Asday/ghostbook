@@ -1,5 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
+import CommentForm from './CommentForm';
+import Comments from './Comments';
+
 class Ghostbook extends Component {
   static propTypes = {
     ghostbookUrl: PropTypes.string.isRequired,
@@ -11,10 +14,10 @@ class Ghostbook extends Component {
     super(props);
 
     this.state = {
+      comment: "",
       comments: [],
       commentsLoaded: false,
       failedToLoadComments: false,
-      comment: "",
     };
   }
 
@@ -55,18 +58,27 @@ class Ghostbook extends Component {
   }
 
   render() {
+    // const {
+    //   ghostbookCommentsRoot,
+    //   ghostbookId,
+    //   ghostbookUrl,
+    // } = this.props;
+
     const {
-      ghostbookId,
-      ghostbookUrl,
-      ghostbookCommentsRoot,
-    } = this.props;
+      comment,
+      comments,
+      commentsLoaded,
+      failedToLoadComments,
+    } = this.state;
+
     return (
       <div>
-        Id: {ghostbookId}
-        <br />
-        URL: {ghostbookUrl}
-        <br />
-        Comments root: {ghostbookCommentsRoot}
+        <CommentForm comment={ comment } />
+        <Comments
+          comments={ comments }
+          commentsLoaded={ commentsLoaded }
+          failedToLoadComments={ failedToLoadComments }
+        />
       </div>
     );
   }
