@@ -42,13 +42,6 @@ func newOptions(optionSetters ...option) (*options, error) {
 	return out, nil
 }
 
-func optionSiteHost(siteHost string) option {
-	return func(options *options) error {
-		options.siteHost = siteHost
-		return nil
-	}
-}
-
 func optionCommentsFolder(commentsFolder string) option {
 	return func(options *options) error {
 		options.commentsFolder = commentsFolder
@@ -70,10 +63,11 @@ func optionPort(port int) option {
 	}
 }
 
-func optionCaptchaDetails(siteID string, secret string) option {
+func optionCaptchaDetails(siteID string, secret string, siteHost string) option {
 	return func(options *options) error {
 		options.captchaSiteID = siteID
 		options.captchaSecret = recaptcha.R{Secret: secret}
+		options.siteHost = siteHost
 		return nil
 	}
 }
@@ -88,12 +82,6 @@ func getOptions() (options, error) {
 
 	errs := make([]string, 0)
 	optSetters := make([]option, 0)
-
-	if siteHost != "" {
-		optSetters = append(optSetters, optionSiteHost(siteHost))
-	} else {
-		errs = append(errs, "Environment variable GB_SITE_HOST must be set")
-	}
 
 	if commentsFolder != "" {
 		mkdirErr := os.MkdirAll(commentsFolder, 0700)
@@ -132,8 +120,9 @@ func getOptions() (options, error) {
 		}
 	}
 
-	if (captchaSiteID != "" && captchaSecret == "") || (captchaSiteID == "" && captchaSecret != "") {
-		errs = append(errs, "You must specify either both or neither of the environment variables `GB_CAPTCHA_SITE_ID` and `GB_CAPTCHA_SECRET`")
+	if (captchaSiteID != "" || captchaSecret != "" || siteHost != "") &&
+		(captchaSiteID == "" || captchaSecret == "" || siteHost == "") {
+		errs = append(errs, "You must specify either none or all of the environment variables `GB_CAPTCHA_SITE_ID`, `GB_CAPTCHA_SECRET`, and `GB_SITE_HOST`")
 	} else if captchaSiteID != "" { // Only validate CAPTCHA details if we're to use CAPTCHA
 		errorTemplate := "Your `%s` doesn't look right.  As far as I know, it should be 40 characters long"
 		formatError := false
@@ -147,7 +136,10 @@ func getOptions() (options, error) {
 		}
 
 		if !formatError {
-			optSetters = append(optSetters, optionCaptchaDetails(captchaSiteID, captchaSecret))
+			optSetters = append(
+				optSetters,
+				optionCaptchaDetails(captchaSiteID, captchaSecret, siteHost),
+			)
 		}
 	}
 
