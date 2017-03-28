@@ -11,6 +11,7 @@ import (
 type savedComment struct {
 	Comment   string `json:"comment"`
 	Timestamp int32  `json:"timestamp"`
+	ID        int    `json:"id"`
 }
 
 type savedComments []savedComment
@@ -47,10 +48,11 @@ func writeComments(path string, cmts savedComments) {
 	}
 }
 
-func makeSavedComment(cmt comment) savedComment {
+func makeSavedComment(cmt comment, cmts savedComments) savedComment {
 	return savedComment{
 		Comment:   cmt.Comment,
 		Timestamp: int32(time.Now().Unix()),
+		ID:        len(cmts) + 1,
 	}
 }
 
@@ -59,6 +61,6 @@ func addComment(cmt comment, opts options) {
 
 	cmts := readComments(path)
 	// TODO:  Check for duplicates
-	cmts = append(savedComments{makeSavedComment(cmt)}, cmts...)
+	cmts = append(savedComments{makeSavedComment(cmt, cmts)}, cmts...)
 	writeComments(path, cmts)
 }
