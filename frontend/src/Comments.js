@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { map } from 'lodash';
+import Remarkable from 'remarkable'
 
 class Comments extends Component {
   static propTypes = {
@@ -21,10 +22,13 @@ class Comments extends Component {
     const date = new Date(timestamp * 1000);
     const humanReadableDate = date.toString();
 
+    const mdRenderer = new Remarkable();
+    const renderedComment = mdRenderer.render(comment);
+
     return (
       <section key={ key }>
         <time dateTime={ timestamp }>{ humanReadableDate }</time>
-        <p>{ comment }</p>
+        <article dangerouslySetInnerHTML={ {__html: renderedComment} }></article>
       </section>
     );
   }
