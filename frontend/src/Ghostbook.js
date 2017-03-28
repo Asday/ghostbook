@@ -7,6 +7,32 @@ class Ghostbook extends Component {
     ghostbookId: PropTypes.string.isRequired,
   }
 
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      comments: [],
+      commentsLoaded: false,
+      comment: "",
+    };
+  }
+
+  componentDidMount() {
+    const {
+      ghostbookId,
+      ghostbookCommentsRoot,
+    } = this.props;
+
+    fetch(`${ghostbookCommentsRoot}${ghostbookId}.json`)
+      .then((response) => {
+        if (response.ok) {
+          response.json().then((comments) => {
+            this.setState({comments, commentsLoaded: true});
+          });
+        }
+      });
+  }
+
   render() {
     const {
       ghostbookId,
