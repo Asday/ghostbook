@@ -1,11 +1,12 @@
 {
   "name": "ghostbook",
-  "version": "0.1.4",
+  "version": "0.1.5",
   "private": true,
   "devDependencies": {
     "react-scripts": "0.9.5",
     "react": "15.4.2",
-    "react-dom": "15.4.2"
+    "react-dom": "15.4.2",
+    "lodash": "4.17.4"
   },
   "dependencies": {
   },
