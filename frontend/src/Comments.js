@@ -5,8 +5,10 @@ import Remarkable from 'remarkable'
 
 class Comments extends Component {
   static propTypes = {
+    _referenceComment: PropTypes.func.isRequired,
     comments: PropTypes.arrayOf(PropTypes.shape({
       comment: PropTypes.string.isRequired,
+      id: PropTypes.number.isRequired,
       timestamp: PropTypes.number.isRequired,
     })).isRequired,
     commentsLoaded: PropTypes.bool.isRequired,
@@ -19,11 +21,20 @@ class Comments extends Component {
     this.mdRenderer = new Remarkable();
   }
 
-  _renderComment = (commentData, key) => {
+  _handleCommentIdClicked = (event) => {
+    this.props._referenceComment(parseInt(event.target.name, 10));
+  }
+
+  _renderComment = (commentData) => {
     const {
       comment,
+      id,
       timestamp,
     } = commentData;
+
+    const {
+      _handleCommentIdClicked,
+    } = this;
 
     const date = new Date(timestamp * 1000);
     const humanReadableDate = date.toString();
@@ -31,8 +42,9 @@ class Comments extends Component {
     const renderedComment = this.mdRenderer.render(comment);
 
     return (
-      <section key={ key }>
+      <section key={ id }>
         <time dateTime={ timestamp }>{ humanReadableDate }</time>
+        <a name={ id } href="#" onClick={ _handleCommentIdClicked }>{ id }</a>
         <article dangerouslySetInnerHTML={ {__html: renderedComment} }></article>
       </section>
     );

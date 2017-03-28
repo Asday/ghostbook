@@ -61,6 +61,10 @@ class Ghostbook extends Component {
     alert(`Submitting comment ${this.state.comment}`);
   }
 
+  _referenceComment = (commentId) => {
+    alert(`Comment ID ${commentId} clicked`);
+  }
+
   componentDidMount = () => {
     this._fetchComments();
   }
@@ -68,6 +72,7 @@ class Ghostbook extends Component {
   render = () => {
     const {
       _commentChanged,
+      _referenceComment,
       _submitComment,
       state,
     } = this;
@@ -90,6 +95,7 @@ class Ghostbook extends Component {
           comments={ comments }
           commentsLoaded={ commentsLoaded }
           failedToLoadComments={ failedToLoadComments }
+          _referenceComment={ _referenceComment }
         />
       </section>
     );
