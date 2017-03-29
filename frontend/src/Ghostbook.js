@@ -64,7 +64,26 @@ class Ghostbook extends Component {
   }
 
   _referenceComment = (commentId) => {
-    alert(`Comment ID ${commentId} clicked`);
+    const {
+      comment,
+      commentSelectionEnd,
+      commentSelectionStart,
+    } = this.state;
+
+    const pre = comment.substring(0, commentSelectionStart);
+    const commentReference = `[>>${commentId}](#${commentId})`;
+    const post = comment.substring(commentSelectionEnd);
+
+    const newComment = `${pre}${commentReference}${post}`;
+    const newCursorPos = commentSelectionStart + commentReference.length;
+
+    this.setState({
+      comment: newComment,
+      commentSelectionEnd: newCursorPos,
+      commentSelectionStart: newCursorPos,
+    });
+
+    this._commentForm.focus(newCursorPos);
   }
 
   componentDidMount = () => {
@@ -92,6 +111,7 @@ class Ghostbook extends Component {
           comment={ comment }
           _commentChanged={ _commentChanged }
           _submitComment={ _submitComment }
+          ref={ (commentForm) => { this._commentForm = commentForm; } }
         />
         <Comments
           comments={ comments }

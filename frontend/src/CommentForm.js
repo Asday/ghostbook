@@ -7,6 +7,13 @@ class CommentForm extends Component {
     comment: PropTypes.string.isRequired,
   }
 
+  constructor(props) {
+    super(props)
+
+    // Keep this out of state, as we don't want to render when changing it.
+    this._focus = {shouldFocus: false, cursorPos: 0};
+  }
+
   _handleCommentChange = (event) => {
     const {
       value,
@@ -20,6 +27,10 @@ class CommentForm extends Component {
   _handleSubmit = (event) => {
     this.props._submitComment();
     event.preventDefault();
+  }
+
+  focus = (cursorPos) => {
+    this._focus = {shouldFocus: true, cursorPos};
   }
 
   render = () => {
@@ -41,11 +52,25 @@ class CommentForm extends Component {
             value={ comment }
             onChange={ _handleCommentChange }
             onBlur={ _handleCommentChange }
+            ref={ (input) => { this._commentInput = input; } }
           />
         </label>
         <button type="submit">Submit</button>
       </form>
     );
+  }
+
+  componentDidUpdate = () => {
+    const {
+      cursorPos,
+      shouldFocus,
+    } = this._focus;
+
+    if (shouldFocus) {
+      this._commentInput.focus();
+      this._commentInput.setSelectionRange(cursorPos, cursorPos);
+      this._focus.shouldFocus = false;
+    }
   }
 }
 
