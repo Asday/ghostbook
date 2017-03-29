@@ -10,7 +10,7 @@ fs.readFile('build/asset-manifest.json', (err, data) => {
   if (!fs.existsSync('dist')) { fs.mkdirSync('dist', 0o744); }
 
   const reader = fs.createReadStream(`build/${manifest['main.js']}`);
-  const writer = fs.createWriteStream('dist/bundle.js');
+  const writer = fs.createWriteStream('dist/ghostbook.js');
 
   reader.on('error', (err) => { throw err });
   reader.on('close', () => { writer.close() });

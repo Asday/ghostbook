@@ -9,7 +9,7 @@ This will be a self-hosted standalone binary which acts as a comment server for 
 ### Frontend
 
 * Run `npm install ghostbook`;
-* Reference `node_modules/ghostbook/dist/bundle.js` in your HTML, template, or build process.  Ensure it is included after your ghostbook element on the page<sup>\*</sup> ;
+* Reference `node_modules/ghostbook/dist/ghostbook.js` in your HTML, template, or build process.  Ensure it is included after your ghostbook element on the page<sup>\*</sup> ;
 * Define a block level element within which to contain Ghostbook on the pages you want it, with the following data tags:
     * `data-ghostbook-url="[url]"`:  The URL of your Ghostbook instance, for example `https://comments.example.com:55864/`;
     * `data-ghostbook-comments-root="[url]"`:  The URL which points to the folder within which your comment json files reside, for example `https://comments.example.com/`;
