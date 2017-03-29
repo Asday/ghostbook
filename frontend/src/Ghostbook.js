@@ -15,6 +15,8 @@ class Ghostbook extends Component {
 
     this.state = {
       comment: "",
+      commentSelectionEnd: 0,
+      commentSelectionStart: 0,
       comments: [],
       commentsLoaded: false,
       failedToLoadComments: false,
@@ -53,8 +55,8 @@ class Ghostbook extends Component {
       });
   }
 
-  _commentChanged = (comment) => {
-    this.setState({comment});
+  _commentChanged = (comment, commentSelectionStart, commentSelectionEnd) => {
+    this.setState({comment, commentSelectionStart, commentSelectionEnd});
   }
 
   _submitComment = () => {

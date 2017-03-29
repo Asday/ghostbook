@@ -8,7 +8,13 @@ class CommentForm extends Component {
   }
 
   _handleCommentChange = (event) => {
-    this.props._commentChanged(event.target.value);
+    const {
+      value,
+      selectionStart,
+      selectionEnd,
+    } = event.target;
+
+    this.props._commentChanged(value, selectionStart, selectionEnd);
   }
 
   _handleSubmit = (event) => {
@@ -31,7 +37,11 @@ class CommentForm extends Component {
       <form onSubmit={ _handleSubmit }>
         <label>
           Comment:
-          <textarea value={ comment } onChange={ _handleCommentChange } />
+          <textarea
+            value={ comment }
+            onChange={ _handleCommentChange }
+            onBlur={ _handleCommentChange }
+          />
         </label>
         <button type="submit">Submit</button>
       </form>
