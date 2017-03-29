@@ -67,11 +67,15 @@ class Comments extends Component {
   }
 
   _renderFailedToLoadComments = () => {
-    return (<section></section>);
+    return (
+      <section></section>
+    );
   }
 
   _renderLoadingComments = () => {
-    return (<section dangerouslySetInnerHTML={ {__html: spinner} }></section>);
+    return (
+      <section dangerouslySetInnerHTML={ {__html: spinner} }></section>
+    );
   }
 
   render = () => {
