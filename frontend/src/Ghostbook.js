@@ -1,5 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
+import { map } from 'lodash';
+
 import CommentForm from './CommentForm';
 import Comments from './Comments';
 
@@ -60,7 +62,71 @@ class Ghostbook extends Component {
   }
 
   _submitComment = () => {
-    alert(`Submitting comment ${this.state.comment}`);
+    const {
+      ghostbookId,
+      ghostbookUrl,
+    } = this.props;
+
+    const {
+      comment,
+      comments
+    } = this.state;
+
+    const data = JSON.stringify({ghostbookId, comment});
+    const commentId = this.state.comments.length + 1;
+    const timestamp = Math.round(Date.now() / 1000);
+    const newComment = {
+      id: commentId,
+      comment,
+      timestamp,
+      submitting: true,
+      failedToSubmit: false,
+    };
+
+    this.setState({
+      comments: [newComment, ...comments],
+      comment: "",
+      commentSelectionEnd: 0,
+      commentSelectionStart: 0,
+    });
+
+    const mutateComments = (mutator) => {
+      this.setState({comments: map(this.state.comments, (comment) => {
+        if (comment.submitting && comment.timestamp === timestamp) {
+          return mutator(comment);
+        } else {
+          return comment;
+        }
+      })});
+    }
+
+    const setSubmitted = () => {
+      mutateComments((comment) => ({
+        id: comment.id,
+        comment: comment.comment,
+        timestamp: comment.timestamp,
+      }));
+    }
+
+    const setSubmissionFailed = () => {
+      mutateComments((comment) => ({
+        ...comment,
+        submitting: false,
+        failedToSubmit: true,
+      }));
+    }
+
+    fetch(`${ghostbookUrl}comment`, {method: 'POST', body: data})
+      .then((response) => {
+        if (response.ok) {
+          setSubmitted();
+        } else {
+          setSubmissionFailed();
+        }
+      })
+      .catch(() => {
+        setSubmissionFailed();
+      });
   }
 
   _referenceComment = (commentId) => {
