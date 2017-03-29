@@ -1,16 +1,16 @@
 {
   "name": "ghostbook",
-  "version": "0.1.15",
+  "version": "0.1.16",
   "private": true,
   "devDependencies": {
     "lodash": "4.17.4",
+    "raw-loader": "0.5.1",
     "react": "15.4.2",
     "react-dom": "15.4.2",
     "react-scripts": "0.9.5",
     "remarkable": "1.7.1"
   },
-  "dependencies": {
-  },
+  "dependencies": {},
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",

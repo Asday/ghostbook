@@ -3,6 +3,10 @@ import React, { Component, PropTypes } from 'react';
 import { map } from 'lodash';
 import Remarkable from 'remarkable';
 
+// TODO:  Why does the linter shoot me in the head here?
+// eslint-disable-next-line
+const spinner = require('!!raw!./spinner.html');
+
 class Comments extends Component {
   static propTypes = {
     _referenceComment: PropTypes.func.isRequired,
@@ -50,7 +54,7 @@ class Comments extends Component {
     );
   }
 
-  render = () => {
+  _renderComments = () => {
     const {
       comments,
     } = this.props;
@@ -60,6 +64,29 @@ class Comments extends Component {
         { map(comments, this._renderComment) }
       </section>
     );
+  }
+
+  _renderFailedToLoadComments = () => {
+    return (<section></section>);
+  }
+
+  _renderLoadingComments = () => {
+    return (<section dangerouslySetInnerHTML={ {__html: spinner} }></section>);
+  }
+
+  render = () => {
+    const {
+      commentsLoaded,
+      failedToLoadComments,
+    } = this.props;
+
+    if (commentsLoaded) {
+      return this._renderComments();
+    } else if (failedToLoadComments) {
+      return this._renderFailedToLoadComments();
+    } else {
+      return this._renderLoadingComments();
+    }
   }
 }
 
