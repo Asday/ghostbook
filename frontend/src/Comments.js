@@ -1,7 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 
 import { map } from 'lodash';
-import Remarkable from 'remarkable'
+import Remarkable from 'remarkable';
 
 class Comments extends Component {
   static propTypes = {
