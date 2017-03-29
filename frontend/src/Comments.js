@@ -44,7 +44,7 @@ class Comments extends Component {
     return (
       <section key={ id }>
         <time dateTime={ timestamp }>{ humanReadableDate }</time>
-        <a name={ id } href="#" onClick={ _handleCommentIdClicked }>{ id }</a>
+        <a name={ id } href="#" onClick={ _handleCommentIdClicked }>&gt;&gt;{ id }</a>
         <article dangerouslySetInnerHTML={ {__html: renderedComment} }></article>
       </section>
     );
