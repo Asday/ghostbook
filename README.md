@@ -40,7 +40,7 @@ Ghostbook will run as a RESTful http server with one endpoint, which is write on
 
 When receiving this data, the server will validate it for comment length, returning a `400 Bad Request` and discarding the data if the limit is violated, then prepend the comment to an array in a json-formatted file which corresponds with the page ID, and return `201 Created`, along with a json object representing the submitted comment.
 
-If Ghostbook is running with CAPTCHA enabled, a second endpoint which serves the site ID required for the CAPTCHA widget will also be available.
+If Ghostbook is running with CAPTCHA enabled, a second endpoint which serves the site ID required for the CAPTCHA widget will also be available, and Ghostbook will also discard a comment if the CAPTCHA validation failed.
 
 That's it.  For the server, at least.
 
