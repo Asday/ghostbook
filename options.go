@@ -96,7 +96,7 @@ func getOptions() (options, error) {
 	}
 
 	if commentsFolder != "" {
-		mkdirErr := os.MkdirAll(commentsFolder, 0700)
+		mkdirErr := os.MkdirAll(commentsFolder, 0775)
 		path := filepath.Join(commentsFolder, "_ghostbook_write_test")
 		f, writeErr := os.OpenFile(path, os.O_WRONLY|os.O_CREATE, 0600)
 		f.Close() // No need to defer or check for errors.

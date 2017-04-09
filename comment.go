@@ -42,7 +42,7 @@ func writeComments(path string, cmts savedComments) {
 		panic(err)
 	}
 
-	err = ioutil.WriteFile(path, data, 0600)
+	err = ioutil.WriteFile(path, data, 0664)
 	if err != nil {
 		panic(err)
 	}
