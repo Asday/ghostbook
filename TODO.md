@@ -1,3 +1,4 @@
+v1
 * Failed to load comments
 * More config
     * CAPTCHA
@@ -17,3 +18,8 @@
 * Only load when scrolled into view?
 * Oh you know what there's a race condition
     * Make a global json overlord goroutine
+
+v2
+* Consider multi-site
+
+Will need to re-look into how CAPTCHA works, perhaps CAPTCHA per site would be best path.
