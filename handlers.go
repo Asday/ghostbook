@@ -22,26 +22,24 @@ func getBodyData(r *http.Request) (comment, error) {
 	return data, err
 }
 
-func serveRequest(r *http.Request, opts options) error {
+func serveRequest(r *http.Request, opts options) (savedComment, error) {
 	body, err := getBodyData(r)
 	if err != nil {
-		return err
+		return savedComment{}, err
 	}
 
 	if len(body.Comment) > opts.commentLengthLimit {
 		errorMsg := "Comment length too long; reduce to at most %d characters"
-		return fmt.Errorf(errorMsg, opts.commentLengthLimit)
+		return savedComment{}, fmt.Errorf(errorMsg, opts.commentLengthLimit)
 	}
 
 	if opts.captchaEnabled() {
 		if opts.captchaSecret.VerifyResponse(body.CaptchaResponse) {
-			return errors.New("CAPTCHA verification failed")
+			return savedComment{}, errors.New("CAPTCHA verification failed")
 		}
 	}
 
-	addComment(body, opts)
-
-	return nil
+	return addComment(body, opts), nil
 }
 
 type handler func(w http.ResponseWriter, r *http.Request)
@@ -55,9 +53,15 @@ func makeCommentEndpoint(opts options) handler {
 		case "OPTIONS":
 			return
 		case "POST":
-			err := serveRequest(r, opts)
+			newComment, err := serveRequest(r, opts)
 			if err == nil {
-				w.WriteHeader(204)
+				response, jsonErr := json.Marshal(newComment)
+				if jsonErr == nil {
+					w.WriteHeader(201)
+					w.Write(response)
+				} else {
+					http.Error(w, jsonErr.Error(), 500)
+				}
 			} else {
 				http.Error(w, err.Error(), 400)
 			}

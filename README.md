@@ -38,7 +38,7 @@ If your chosen port is open to the world, and you don't want to use HTTPS, or su
 
 Ghostbook will run as a RESTful http server with one endpoint, which is write only.  This endpoint will take two arguments; the page's ID upon which the comment is being made, and the comment body.
 
-When receiving this data, the server will validate it for comment length, returning a `400 Bad Request` and discarding the data if the limit is violated, then prepend the comment to an array in a json-formatted file which corresponds with the page ID, and return `204 No Content`.
+When receiving this data, the server will validate it for comment length, returning a `400 Bad Request` and discarding the data if the limit is violated, then prepend the comment to an array in a json-formatted file which corresponds with the page ID, and return `201 Created`, along with a json object representing the submitted comment.
 
 If Ghostbook is running with CAPTCHA enabled, a second endpoint which serves the site ID required for the CAPTCHA widget will also be available.
 

@@ -56,11 +56,14 @@ func makeSavedComment(cmt comment, cmts savedComments) savedComment {
 	}
 }
 
-func addComment(cmt comment, opts options) {
+func addComment(cmt comment, opts options) savedComment {
 	path := filepath.Join(opts.commentsFolder, fmt.Sprintf("%s.json", cmt.GhostbookID))
 
 	cmts := readComments(path)
+	newComment := makeSavedComment(cmt, cmts)
 	// TODO:  Check for duplicates
-	cmts = append(savedComments{makeSavedComment(cmt, cmts)}, cmts...)
+	cmts = append(savedComments{newComment}, cmts...)
 	writeComments(path, cmts)
+
+	return newComment
 }
