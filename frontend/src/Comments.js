@@ -46,6 +46,7 @@ class Comments extends Component {
         <span>Failed to submit.  <a name={ timestamp } href="#" onClick={ _handleRetryFailedComment }>Retry?</a></span>
         <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
       </section>
+    );
   }
 
   _renderCommentOptimistic(key, renderedComment) {

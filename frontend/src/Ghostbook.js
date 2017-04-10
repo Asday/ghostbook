@@ -44,12 +44,12 @@ class Ghostbook extends Component {
         if (response.ok) {
           response.json().then((comments) => {
             this.setState({
-              comments: map(comments, (comment) => {
-                ...comment,
-                optimistic: false,
-                failedToSubmit: false,
-                submitting: false,
-              },
+              comments: map(comments, (comment) => ({
+                  ...comment,
+                  optimistic: false,
+                  failedToSubmit: false,
+                  submitting: false,
+                })),
               commentsLoaded: true,
             });
           });
