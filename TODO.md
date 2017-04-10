@@ -12,8 +12,7 @@ v1
     * Show user error on length exceedment
     * Bring comment back to box
 * Styling pass
-* Return comment on "successful" server call
-    * Fix optimistic update to include real ID instead of guessing it
+* Fix optimistic update to include real ID instead of guessing it
 * Render something when there aren't any comments
 * Only load when scrolled into view?
 * Oh you know what there's a race condition
