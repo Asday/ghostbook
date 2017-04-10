@@ -12,7 +12,10 @@ class Comments extends Component {
     _referenceComment: PropTypes.func.isRequired,
     comments: PropTypes.arrayOf(PropTypes.shape({
       comment: PropTypes.string.isRequired,
+      failedToSubmit: PropTypes.bool.isRequired,
       id: PropTypes.number.isRequired,
+      optimistic: PropTypes.bool.isRequired,
+      submitting: PropTypes.bool.isRequired,
       timestamp: PropTypes.number.isRequired,
     })).isRequired,
     commentsLoaded: PropTypes.bool.isRequired,
@@ -29,12 +32,49 @@ class Comments extends Component {
     this.props._referenceComment(parseInt(event.target.name, 10));
   }
 
+  _handleRetryFailedComment = (event) => {
+    console.log('Retrying comment');
+  }
+
+  _renderCommentFailedToSubmit(timestamp, renderedComment) {
+    const {
+      _handleRetryFailedComment,
+    } = this;
+
+    return (
+      <section key={ timestamp }>
+        <span>Failed to submit.  <a name={ timestamp } href="#" onClick={ _handleRetryFailedComment }>Retry?</a></span>
+        <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
+      </section>
+  }
+
+  _renderCommentOptimistic(key, renderedComment) {
+    return (
+      <section key={ key }>
+        <span>Submitting...</span>
+        <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
+      </section>
+    );
+  }
+
   _renderComment = (commentData) => {
     const {
       comment,
+      failedToSubmit,
       id,
+      optimistic,
       timestamp,
     } = commentData;
+
+    const renderedComment = this.mdRenderer.render(comment);
+
+    if (optimistic) {
+      if (failedToSubmit) {
+        return this._renderCommentFailedToSubmit(timestamp, renderedComment);
+      }
+
+      return this._renderCommentOptimistic(timestamp, renderedComment);
+    }
 
     const {
       _handleCommentIdClicked,
@@ -43,13 +83,12 @@ class Comments extends Component {
     const date = new Date(timestamp * 1000);
     const humanReadableDate = date.toString();
 
-    const renderedComment = this.mdRenderer.render(comment);
 
     return (
       <section key={ id }>
         <time dateTime={ timestamp }>{ humanReadableDate }</time>
         <a name={ id } href="#" onClick={ _handleCommentIdClicked }>&gt;&gt;{ id }</a>
-        <article dangerouslySetInnerHTML={ {__html: renderedComment} }></article>
+        <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
       </section>
     );
   }

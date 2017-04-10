@@ -43,7 +43,15 @@ class Ghostbook extends Component {
       .then((response) => {
         if (response.ok) {
           response.json().then((comments) => {
-            this.setState({comments, commentsLoaded: true});
+            this.setState({
+              comments: map(comments, (comment) => {
+                ...comment,
+                optimistic: false,
+                failedToSubmit: false,
+                submitting: false,
+              },
+              commentsLoaded: true,
+            });
           });
         } else {
           this.setState({failedToLoadComments: true});
@@ -62,6 +70,7 @@ class Ghostbook extends Component {
   }
 
   _submitComment = () => {
+    // TODO:  Rewrite this based on the changes in `Comments.js`.
     const {
       ghostbookId,
       ghostbookUrl,
