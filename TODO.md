@@ -18,6 +18,7 @@ v1
 * Oh you know what there's a race condition - two comments being written at once
   * Make a global json overlord goroutine
 * Deal with no connection (or no server running)
+* Whoa hey why aren't comments their own component?
 
 v2
 * Consider multi-site

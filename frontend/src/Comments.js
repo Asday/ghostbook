@@ -59,6 +59,7 @@ class Comments extends Component {
   }
 
   _renderComment = (commentData) => {
+    // TODO:  This should _definitely_ be its own component.
     const {
       comment,
       failedToSubmit,
