@@ -15,7 +15,7 @@ v1
 * Fix optimistic update to include real ID instead of guessing it - in progress
 * Render something when there aren't any comments
 * Only load when scrolled into view?
-* Oh you know what there's a race condition
+* Oh you know what there's a race condition - two comments being written at once
   * Make a global json overlord goroutine
 
 v2
