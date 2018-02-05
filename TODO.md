@@ -17,6 +17,7 @@ v1
 * Only load when scrolled into view?
 * Oh you know what there's a race condition - two comments being written at once
   * Make a global json overlord goroutine
+* Deal with no connection (or no server running)
 
 v2
 * Consider multi-site
