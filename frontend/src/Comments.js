@@ -109,7 +109,9 @@ class Comments extends Component {
 
   _renderFailedToLoadComments = () => {
     return (
-      <section></section>
+      <section>
+        <strong>Failed to load comments.</strong>
+      </section>
     );
   }
 
