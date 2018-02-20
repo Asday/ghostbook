@@ -11,6 +11,7 @@ v1
 * Fail submitting comments
   * Show user error on length exceedment
   * Bring comment back to box
+* Disallow blank comments
 * Styling pass
 * Fix optimistic update to include real ID instead of guessing it - in progress
 * Render something when there aren't any comments
