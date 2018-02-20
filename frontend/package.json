@@ -1,6 +1,6 @@
 {
   "name": "ghostbook",
-  "version": "0.1.17",
+  "version": "0.1.18",
   "private": false,
   "devDependencies": {
     "lodash": "4.17.4",

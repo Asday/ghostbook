@@ -70,7 +70,6 @@ class Ghostbook extends Component {
   }
 
   _submitComment = () => {
-    // TODO:  Rewrite this based on the changes in `Comments.js`.
     const {
       ghostbookId,
       ghostbookUrl,
@@ -90,6 +89,7 @@ class Ghostbook extends Component {
       timestamp,
       submitting: true,
       failedToSubmit: false,
+      optimistic: true,
     };
 
     this.setState({
@@ -111,9 +111,11 @@ class Ghostbook extends Component {
 
     const setSubmitted = () => {
       mutateComments((comment) => ({
+        ...comment,
         id: comment.id,
         comment: comment.comment,
         timestamp: comment.timestamp,
+        optimistic: false,
       }));
     }
 
