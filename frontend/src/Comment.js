@@ -6,6 +6,7 @@ class Comment extends Component {
   static propTypes = {
     _referenceComment: PropTypes.func.isRequired,
     comment: PropTypes.string.isRequired,
+    failedForReason: PropTypes.string,
     failedToSubmit: PropTypes.bool.isRequired,
     id: PropTypes.number.isRequired,
     optimistic: PropTypes.bool.isRequired,
@@ -30,6 +31,7 @@ class Comment extends Component {
   render = () => {
     const {
       comment,
+      failedForReason,
       failedToSubmit,
       id,
       optimistic,
@@ -49,14 +51,19 @@ class Comment extends Component {
     return  (
       <section>
         { failedToSubmit && <span>
-          Failed to submit.  <a name={ timestamp } href="#" onClick={ _handleRetryFailedComment }>Retry?</a>
+          Failed to submit. { failedForReason || '' }
+          <a name={ timestamp } href="#" onClick={ _handleRetryFailedComment }>
+            Retry?
+          </a>
         </span> }
         { submitting && <span>Submitting...</span> }
         { (failedToSubmit || submitting) && <br /> }
         <time dateTime={ timestamp }>{ humanReadableDate }</time>
         { optimistic
           ? <span>&gt;&gt;{ id }</span>
-          : <a name={ id } href="#" onClick={ _handleCommentIdClicked }>&gt;&gt;{ id }</a>
+          : <a name={ id } href="#" onClick={ _handleCommentIdClicked }>
+            &gt;&gt;{ id }
+          </a>
         }
         <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
       </section>

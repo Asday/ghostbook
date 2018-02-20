@@ -39,7 +39,7 @@ class Ghostbook extends Component {
     //
     // Until then, I'm spewing a console log to assuage passing console
     // peekers' fears.
-    fetch(`${ghostbookCommentsRoot}${ghostbookId}.json`)
+    fetch(`${ghostbookCommentsRoot}${ghostbookId}.json`,  {cache: 'no-cache' })
       .then((response) => {
         if (response.ok) {
           response.json().then((comments) => {
@@ -128,12 +128,27 @@ class Ghostbook extends Component {
       }));
     }
 
+    const setSubmissionFailedForReason = (reason) => {
+      mutateComments((comment) => ({
+        ...comment,
+        submitting: false,
+        failedToSubmit: true,
+        failedForReason: reason,
+      }))
+    }
+
     fetch(`${ghostbookUrl}comment`, {method: 'POST', body: data})
       .then((response) => {
         if (response.ok) {
-          setSubmitted();
+          this._fetchComments();
         } else {
-          setSubmissionFailed();
+          if (response.status === 400) {
+            response.text().then((text) => {
+              setSubmissionFailedForReason(text);
+            });
+          } else {
+            setSubmissionFailed();
+          }
         }
       })
       .catch(() => {
