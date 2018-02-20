@@ -1,0 +1,11 @@
+server {
+  listen 80;
+
+  location ~ ^/ghostbook/(.*) {
+    rewrite ^/ghostbook(/.*)$ $1 break;
+
+    add_header Access-Control-Allow-Origin *;
+
+    root /home/<username>/code/src/github.com/asday/ghostbook/comments;
+  }
+}
