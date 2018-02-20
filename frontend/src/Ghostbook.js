@@ -116,6 +116,7 @@ class Ghostbook extends Component {
         comment: comment.comment,
         timestamp: comment.timestamp,
         optimistic: false,
+        submitting: false,
       }));
     }
 
