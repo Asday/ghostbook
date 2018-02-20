@@ -1,5 +1,4 @@
 v1
-* Failed to load comments
 * More config
   * CAPTCHA
   * Pagination
