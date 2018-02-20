@@ -1,7 +1,8 @@
 import React, { Component, PropTypes } from 'react';
 
 import { map } from 'lodash';
-import Remarkable from 'remarkable';
+
+import Comment from './Comment'
 
 // TODO:  Why does the linter shoot me in the head here?
 // eslint-disable-next-line
@@ -22,87 +23,19 @@ class Comments extends Component {
     failedToLoadComments: PropTypes.bool.isRequired,
   }
 
-  constructor(props) {
-    super(props);
-
-    this.mdRenderer = new Remarkable();
-  }
-
-  _handleCommentIdClicked = (event) => {
-    this.props._referenceComment(parseInt(event.target.name, 10));
-  }
-
-  _handleRetryFailedComment = (event) => {
-    console.log('Retrying comment');
-  }
-
-  _renderCommentFailedToSubmit(timestamp, renderedComment) {
-    const {
-      _handleRetryFailedComment,
-    } = this;
-
-    return (
-      <section key={ timestamp }>
-        <span>Failed to submit.  <a name={ timestamp } href="#" onClick={ _handleRetryFailedComment }>Retry?</a></span>
-        <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
-      </section>
-    );
-  }
-
-  _renderCommentOptimistic(key, renderedComment) {
-    return (
-      <section key={ key }>
-        <span>Submitting...</span>
-        <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
-      </section>
-    );
-  }
-
-  _renderComment = (commentData) => {
-    // TODO:  This should _definitely_ be its own component.
-    const {
-      comment,
-      failedToSubmit,
-      id,
-      optimistic,
-      timestamp,
-    } = commentData;
-
-    const renderedComment = this.mdRenderer.render(comment);
-
-    if (optimistic) {
-      if (failedToSubmit) {
-        return this._renderCommentFailedToSubmit(timestamp, renderedComment);
-      }
-
-      return this._renderCommentOptimistic(timestamp, renderedComment);
-    }
-
-    const {
-      _handleCommentIdClicked,
-    } = this;
-
-    const date = new Date(timestamp * 1000);
-    const humanReadableDate = date.toString();
-
-
-    return (
-      <section key={ id }>
-        <time dateTime={ timestamp }>{ humanReadableDate }</time>
-        <a name={ id } href="#" onClick={ _handleCommentIdClicked }>&gt;&gt;{ id }</a>
-        <article dangerouslySetInnerHTML={ {__html: renderedComment} } />
-      </section>
-    );
-  }
-
   _renderComments = () => {
     const {
+      _referenceComment,
       comments,
     } = this.props;
 
     return (
       <section>
-        { map(comments, this._renderComment) }
+        { map(comments, (comment) => <Comment
+          key={ comment.id }
+          { ...comment }
+          _referenceComment={ _referenceComment }
+        />) }
       </section>
     );
   }

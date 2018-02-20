@@ -29,13 +29,13 @@ func serveRequest(r *http.Request, opts options) (savedComment, error) {
 	}
 
 	if len(body.Comment) > opts.commentLengthLimit {
-		errorMsg := "Comment length too long; reduce to at most %d characters"
+		errorMsg := "Comment length too long; reduce to at most %d characters."
 		return savedComment{}, fmt.Errorf(errorMsg, opts.commentLengthLimit)
 	}
 
 	if opts.captchaEnabled() {
 		if opts.captchaSecret.VerifyResponse(body.CaptchaResponse) {
-			return savedComment{}, errors.New("CAPTCHA verification failed")
+			return savedComment{}, errors.New("CAPTCHA verification failed.")
 		}
 	}
 
