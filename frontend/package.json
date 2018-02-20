@@ -1,7 +1,7 @@
 {
   "name": "ghostbook",
   "version": "0.1.17",
-  "private": true,
+  "private": false,
   "devDependencies": {
     "lodash": "4.17.4",
     "raw-loader": "0.5.1",
@@ -17,5 +17,14 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "release": "npm run build && node scripts/release"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asday/ghostbook.git"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/asday/ghostbook/issues"
+  },
+  "homepage": "https://github.com/asday/ghostbook"
 }
